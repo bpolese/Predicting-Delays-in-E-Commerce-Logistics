@@ -483,22 +483,39 @@ if filtered_df.empty:
     st.warning("No records match the current filters. Adjust the sidebar filters to continue.")
     st.stop()
 
-page = st.sidebar.radio(
-    "Navigation",
+st.markdown(
+    """
+    <style>
+    div[data-testid="stTabs"] button {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    div[data-testid="stTabs"] [role="tablist"] {
+        gap: 10px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs(
     [
         "Executive Overview",
         "Delivery Risk Model",
         "Seller & Geography Diagnostics",
         "Order Risk Simulator",
         "Data Quality",
-    ],
+    ]
 )
 
 # -----------------------------
 # Executive Overview
 # -----------------------------
 
-if page == "Executive Overview":
+with tab1:
     st.subheader("Executive Overview")
 
     total_orders = filtered_df["order_id"].nunique()
@@ -607,7 +624,7 @@ if page == "Executive Overview":
 # Delivery Risk Model
 # -----------------------------
 
-elif page == "Delivery Risk Model":
+with tab2:
     st.subheader("Delivery Risk Model")
 
     st.markdown(
@@ -681,7 +698,7 @@ elif page == "Delivery Risk Model":
 # Seller & Geography Diagnostics
 # -----------------------------
 
-elif page == "Seller & Geography Diagnostics":
+with tab3:
     st.subheader("Seller & Geography Diagnostics")
 
     min_orders = st.slider(
@@ -833,7 +850,7 @@ elif page == "Seller & Geography Diagnostics":
 # Order Risk Simulator
 # -----------------------------
 
-elif page == "Order Risk Simulator":
+with tab4:
     st.subheader("Order Risk Simulator")
 
     st.markdown(
@@ -965,7 +982,7 @@ elif page == "Order Risk Simulator":
 # Data Quality
 # -----------------------------
 
-elif page == "Data Quality":
+with tab5:
     st.subheader("Data Quality & Processing Summary")
 
     raw_counts = {
